@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Love 💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+height:100vh;
+overflow:hidden;
+background:linear-gradient(-45deg,#ff6ec4,#7873f5,#ff9a9e,#fad0c4);
+background-size:400% 400%;
+animation:bgMove 12s ease infinite;
+display:flex;
+justify-content:center;
+align-items:center;
+color:white;
+}
+
+@keyframes bgMove{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+/* Intro Screen */
+#intro{
+position:absolute;
+width:100%;
+height:100%;
+background:black;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+z-index:10;
+animation:fadeOut 3s ease 4s forwards;
+}
+
+#intro h1{
+font-size:2.5rem;
+animation:zoom 3s ease infinite alternate;
+}
+
+@keyframes zoom{
+from{transform:scale(1);}
+to{transform:scale(1.2);}
+}
+
+@keyframes fadeOut{
+to{opacity:0;visibility:hidden;}
+}
+
+/* Glass Card */
+.glass{
+backdrop-filter:blur(20px);
+background:rgba(255,255,255,0.15);
+padding:40px;
+border-radius:25px;
+text-align:center;
+width:90%;
+max-width:550px;
+box-shadow:0 0 40px rgba(0,0,0,0.4);
+display:none;
+animation:fadeIn 2s ease forwards;
+}
+
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(30px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+input{
+padding:10px;
+border-radius:20px;
+border:none;
+margin-top:10px;
+outline:none;
+text-align:center;
+}
+
+button{
+padding:10px 20px;
+margin-top:15px;
+border:none;
+border-radius:25px;
+cursor:pointer;
+background:white;
+color:#ff4081;
+font-weight:bold;
+transition:0.3s;
+}
+
+button:hover{
+background:#ff4081;
+color:white;
+transform:scale(1.1);
+}
+
+/* Typing Text */
+#typing{
+margin-top:20px;
+font-size:1.1rem;
+min-height:60px;
+}
+
+/* Photo Slider */
+.slider{
+margin-top:20px;
+height:200px;
+overflow:hidden;
+border-radius:20px;
+}
+
+.slider img{
+width:100%;
+height:200px;
+object-fit:cover;
+position:absolute;
+opacity:0;
+transition:1s;
+}
+
+.slider img.active{
+opacity:1;
+}
+
+/* Fireworks */
+canvas{
+position:absolute;
+top:0;
+left:0;
+pointer-events:none;
+}
+
+</style>
+</head>
+<body>
+
+<div id="intro">
+<h1>Loading Surprise For You 💖</h1>
+</div>
+
+<canvas id="fireworks"></canvas>
+
+<div class="glass" id="mainCard">
+
+<h2>Enter Secret Code 🔐</h2>
+<p>Hint: Your Nickname 💕</p>
+<input type="password" id="code" placeholder="Enter here">
+<br>
+<button onclick="unlock()">Unlock Surprise</button>
+
+<div id="content" style="display:none;">
+<h1>Happy Birthday My Love 🎂💖</h1>
+<div id="typing"></div>
+
+<div class="slider">
+<img src="https://picsum.photos/600/400?1" class="active">
+<img src="https://picsum.photos/600/400?2">
+<img src="https://picsum.photos/600/400?3">
+</div>
+
+</div>
+
+</div>
+
+<audio id="music" loop>
+<source src="yourmusic.mp3" type="audio/mp3">
+</audio>
+
+<script>
+
+/* Show main after intro */
+setTimeout(()=>{
+document.getElementById("mainCard").style.display="block";
+},4000);
+
+/* Unlock */
+function unlock(){
+let input=document.getElementById("code").value;
+if(input.toLowerCase()=="love"){  // change secret here
+document.getElementById("content").style.display="block";
+document.getElementById("music").play();
+startTyping();
+startFireworks();
+}else{
+alert("Wrong Code 😜 Try Again!");
+}
+}
+
+/* Typing Effect */
+const message="You are my happiness, my peace, my everything 💖 I promise to stand beside you forever ✨";
+let i=0;
+function startTyping(){
+let speed=50;
+function type(){
+if(i<message.length){
+document.getElementById("typing").innerHTML+=message.charAt(i);
+i++;
+setTimeout(type,speed);
+}
+}
+type();
+}
+
+/* Slider */
+let slides=document.querySelectorAll(".slider img");
+let index=0;
+setInterval(()=>{
+slides[index].classList.remove("active");
+index=(index+1)%slides.length;
+slides[index].classList.add("active");
+},3000);
+
+/* Fireworks */
+const canvas=document.getElementById("fireworks");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+function startFireworks(){
+for(let i=0;i<30;i++){
+let x=Math.random()*canvas.width;
+let y=Math.random()*canvas.height/2;
+ctx.beginPath();
+ctx.arc(x,y,5,0,Math.PI*2);
+ctx.fillStyle="white";
+ctx.fill();
+}
+}
+
+</script>
+
+</body>
+</html>
